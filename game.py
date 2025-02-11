@@ -35,11 +35,15 @@ def get_determine_winner(victories, user_action, computer_action):
 
 
 if __name__ == "__main__":
-    user_selection = get_user_selection(ACTIONS)
-    print(user_selection)
-    computer_selection = get_computer_selection(ACTIONS)
-    print(computer_selection)
-    determine_winner = get_determine_winner(
-        VICTORIES, user_selection, computer_selection
-    )
-    print(determine_winner)
+    try:
+        user_selection = get_user_selection(ACTIONS)
+        print(user_selection)
+        computer_selection = get_computer_selection(ACTIONS)
+        print(computer_selection)
+        determine_winner = get_determine_winner(
+            VICTORIES, user_selection, computer_selection
+        )
+        print(determine_winner)
+    except:
+        range_str = f"[0, {len(ACTIONS) - 1}]"
+        print(f"Invalid selection. Enter a value in range {range_str}")

@@ -1,40 +1,44 @@
 import random
 
 
-def get_computer_choice():
-    return random.choice(["камінь", "ножиці", "папір"])
+ACTIONS = ["Rock", "Paper", "Scissors"]
+VICTORIES = {
+    ACTIONS[0]: ACTIONS[2],  # Rock beats scissors
+    ACTIONS[1]: ACTIONS[0],  # Paper beats rock
+    ACTIONS[2]: ACTIONS[1],  # Scissors beats paper
+}
 
 
-def get_winner(player, computer):
-    if player == computer:
-        return "Нічия!"
-    elif (
-        (player == "камінь" and computer == "ножиці")
-        or (player == "ножиці" and computer == "папір")
-        or (player == "папір" and computer == "камінь")
-    ):
-        return "Ви перемогли!"
+def get_user_selection(actions):
+    choices = [f"{action}[{num}]" for num, action in enumerate(actions)]
+    choices_str = ", ".join(choices)
+    selection = int(input(f"Enter a choice ({choices_str}): "))
+    user_action = actions[selection]
+    return user_action
+
+
+def get_computer_selection(actions):
+    computer_action = random.choice(actions)
+    return computer_action
+
+
+def get_determine_winner(victories, user_action, computer_action):
+    defeats = victories[user_action]
+    if user_action == computer_action:
+        result = f"Both players selected {user_action}. It's a tie!"
+    elif computer_action in defeats:
+        result = f"{user_action} beats {computer_action}! You win!"
     else:
-        return "Комп'ютер переміг!"
-
-
-def main():
-    while True:
-        player_choice = input(
-            "Введіть 'камінь', 'ножиці' або 'папір' (або 'вийти' для завершення): "
-        ).lower()
-        if player_choice == "вийти":
-            print("Гра завершена. Дякую за гру!")
-            break
-        if player_choice not in ["камінь", "ножиці", "папір"]:
-            print("Неправильний вибір, спробуйте ще раз.")
-            continue
-
-        computer_choice = get_computer_choice()
-        print(f"Комп'ютер обрав: {computer_choice}")
-        print(get_winner(player_choice, computer_choice))
-        print("-" * 30)
+        result = f"{computer_action} beats {user_action}! You lose."
+    return result
 
 
 if __name__ == "__main__":
-    main()
+    user_selection = get_user_selection(ACTIONS)
+    print(user_selection)
+    computer_selection = get_computer_selection(ACTIONS)
+    print(computer_selection)
+    determine_winner = get_determine_winner(
+        VICTORIES, user_selection, computer_selection
+    )
+    print(determine_winner)

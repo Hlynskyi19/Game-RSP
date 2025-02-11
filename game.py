@@ -1,25 +1,26 @@
 import random
 
 
-ACTIONS = ["Rock", "Paper", "Scissors"]
+ACTIONS = {0: "Rock", 1: "Paper", 2: "Scissors"}
 VICTORIES = {
-    ACTIONS[0]: ACTIONS[2],  # Rock beats scissors
-    ACTIONS[1]: ACTIONS[0],  # Paper beats rock
-    ACTIONS[2]: ACTIONS[1],  # Scissors beats paper
+    "Rock": "Scissors",  # Rock beats scissors
+    "Paper": "Rock",  # Paper beats rock
+    "Scissors": "Paper",  # Scissors beats paper
 }
 
 
 def get_user_selection(actions):
-    choices = [f"{action}[{num}]" for num, action in enumerate(actions)]
+    choices = [f"{actions[action]}[{action}]" for action in actions]
     choices_str = ", ".join(choices)
     selection = int(input(f"Enter a choice ({choices_str}): "))
-    user_action = actions[selection]
-    return user_action
+    action = actions[selection]
+    return action
 
 
 def get_computer_selection(actions):
-    computer_action = random.choice(actions)
-    return computer_action
+    selection = random.randint(0, len(actions) - 1)
+    action = actions[selection]
+    return action
 
 
 def get_determine_winner(victories, user_action, computer_action):
